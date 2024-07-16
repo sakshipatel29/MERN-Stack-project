@@ -12,12 +12,6 @@ const Home = () => {
     }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Handle the image upload logic here
-    console.log('Image uploaded:', image);
-  };
-
   return (
     <div className="container">
       <h2>Upload Image</h2>
