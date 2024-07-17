@@ -1,37 +1,24 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
-  const [image, setImage] = useState(null);
-  const [preview, setPreview] = useState(null);
+  const navigate = useNavigate();
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setImage(file);
-      setPreview(URL.createObjectURL(file));
-    }
+  const handleGrabPhotos = () => {
+    navigate('/grab-photos');
+  };
+
+  const handleSharePhotos = () => {
+    navigate('/share-photos');
   };
 
   return (
     <div className="container">
-      <h2>Upload Image</h2>
-      <form onSubmit={handleSubmit} className="form">
-        <div className="form-group">
-          <input
-            type="file"
-            accept="image/*"
-            onChange={handleImageChange}
-            className="input"
-            required
-          />
-        </div>
-        {preview && (
-          <div className="form-group">
-            <img src={preview} alt="Preview" className="image-preview" />
-          </div>
-        )}
-        <button type="submit" className="button">Upload</button>
-      </form>
+      <h2>Photo Management</h2>
+      <div className="button-group">
+        <button onClick={handleGrabPhotos} className="button">Grab Photos</button>
+        <button onClick={handleSharePhotos} className="button">Share Photos</button>
+      </div>
     </div>
   );
 };
