@@ -18,13 +18,19 @@ const CreateEvent = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const formData = new FormData();
+    formData.append('email', email);
+    formData.append('eventName', eventName);
+    formData.append('secretKey', secretKey);
+    images.forEach((image, i) => {
+      formData.append(`images[${i}]`, image);
+    });
+
     try {
-      // You can handle image uploads separately if needed
-      await axios.post('http://localhost:3001/create-event', {
-        email,
-        eventName,
-        secretKey
-        // No images are sent to the server
+      await axios.post('http://localhost:3001/create-event', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
       });
       alert('Event created successfully');
       // Optionally reset form fields

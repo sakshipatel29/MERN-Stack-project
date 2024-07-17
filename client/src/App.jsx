@@ -25,6 +25,7 @@ function App() {
       <Route path="/share-photos" element={<SharePhotos />} />
       <Route path="/update-events" element={<UpdateEvents />} />
       <Route path="/create-event" element={<CreateEvent />} />
+      {/* <Route path="/uploads" element={<UpdateEvents />} /> */}
     </Routes>
     </BrowserRouter>
     </div>
