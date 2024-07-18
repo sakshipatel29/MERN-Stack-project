@@ -52,7 +52,7 @@ app.post("/Login", (req, res) => {
     });
 });
 
-app.post('/register', (req, res) => {
+app.post('/Register', (req, res) => {
   UsersModel.create(req.body)
     .then(user => res.json(user))
     .catch(err => res.json(err));
