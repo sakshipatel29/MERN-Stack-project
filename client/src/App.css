@@ -103,6 +103,7 @@ h2 {
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
+/*LOGIN AND SIGN UP PAGE CSS */
 .createacc{
     color: white;
     font-size: xx-large
@@ -131,4 +132,57 @@ h2 {
     font-size:30px;
     margin-top: 0px;
     color:lightcyan
+}
+
+/*HOME PAGE CSS */
+.homecontainer{
+    text-align:center;
+}
+
+.image-group {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.image-container {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    cursor: pointer;
+}
+
+.image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    transition: .5s ease;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+}
+
+.image-container:hover .overlay {
+    opacity: 1;
+}
+
+.hometext {
+    color: white;
+    font-size: 20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
 }
