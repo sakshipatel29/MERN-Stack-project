@@ -2,6 +2,9 @@
 import {Link} from "react-router-dom";
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { createContext } from 'react';
+
+export const AppContext = createContext();
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -34,6 +37,7 @@ const Login = () => {
     };
 
   return (
+    <AppContext.Provider value={{email, setEmail}}>
       <div className="container">
           <h1 className="Loginheader1">Hello !!</h1>
           <h2 className="Loginheader2">Sign in to your account</h2>
@@ -72,7 +76,8 @@ const Login = () => {
               <p className="accountexist">Dont have an account?</p>
               <Link to="/Register" className="button">Create Account</Link>
       </form>
-    </div>
+    </div>          
+    </AppContext.Provider>
   );
 };
 

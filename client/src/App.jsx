@@ -1,7 +1,7 @@
 import { useState } from 'react'
 //import 'bootstrap/dist/css/bootstrap.min.css'
 import Signup from './Signup'
-import Login from './Login'
+import Login,{AppContext} from './Login'
 import {BrowserRouter, Routes, Route} from 'react-router-dom'
 import './App.css';
 import Home from './Home'
@@ -12,10 +12,11 @@ import CreateEvent from './CreateEvent';
 
 function App() {
   const [count, setCount] = useState(0)
-
+  const [email, setEmail] = useState('');
 
   return (
     <div>
+      <AppContext.Provider value={{ email, setEmail }}>
      <BrowserRouter>
     <Routes>
       <Route path='/Register' element={<Signup />}></Route>
@@ -28,6 +29,7 @@ function App() {
       {/* <Route path="/uploads" element={<UpdateEvents />} /> */}
     </Routes>
     </BrowserRouter>
+    </AppContext.Provider>
     </div>
   )
 }

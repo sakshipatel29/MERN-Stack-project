@@ -1,100 +1,80 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import './App.css';
+import { useContext } from 'react';
+import { AppContext } from './Login';
 
 const CreateEvent = () => {
-  const [email, setEmail] = useState('');
+  const { email } = useContext(AppContext);
+  console.log('Email from context:', email);
   const [eventName, setEventName] = useState('');
-  const [secretKey, setSecretKey] = useState('');
-  const [images, setImages] = useState([]);
+  const [keyValue, setKeyValue] = useState('');
+  const [files, setFiles] = useState([]);
 
-  const handleImageChange = (e) => {
-    const files = Array.from(e.target.files);
-    setImages((prevImages) => [...prevImages, ...files]);
+  const handleFileChange = (e) => {
+    setFiles([...e.target.files]);
   };
 
-  const handleRemoveImage = (index) => {
-    setImages((prevImages) => prevImages.filter((_, i) => i !== index));
+  const handleEventNameChange = (e) => {
+    setEventName(e.target.value);
+  };
+
+  const handleKeyValue = (e) => {
+    setKeyValue(e.target.value);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    if (!eventName) {
+      alert('Event name is required');
+      return;
+    }
+    if (!keyValue) {
+      alert('secret key is required');
+      return;
+    }
     const formData = new FormData();
     formData.append('email', email);
     formData.append('eventName', eventName);
-    formData.append('secretKey', secretKey);
-    images.forEach((image, i) => {
-      formData.append(`images[${i}]`, image);
+    formData.append('keyValue', keyValue);
+
+
+    files.forEach((file) => {
+      formData.append('files', file);
     });
 
     try {
-      await axios.post('http://localhost:3001/create-event', formData, {
+      const response = await axios.post('http://localhost:3001/create-event', formData, {
         headers: {
-          'Content-Type': 'multipart/form-data'
-        }
+          'Content-Type': 'multipart/form-data',
+        },
       });
-      alert('Event created successfully');
-      // Optionally reset form fields
-      setEmail('');
-      setEventName('');
-      setSecretKey('');
-      setImages([]);
+      console.log(response.data);
+      alert('Files uploaded successfully!');
     } catch (error) {
-      console.error('There was an error creating the event!', error);
+      console.error('Error uploading files', error);
+      alert('Failed to upload files');
     }
   };
 
   return (
     <div>
-      <h2>Create Event Page</h2>
       <form onSubmit={handleSubmit}>
-        <div>
-          <label>Email:</label>
-          <input 
-            type="email" 
-            value={email} 
-            onChange={(e) => setEmail(e.target.value)} 
-            required 
-          />
-        </div>
+        <input type='hidden' value={email} />
         <div>
           <label>Event Name:</label>
-          <input 
-            type="text" 
-            value={eventName} 
-            onChange={(e) => setEventName(e.target.value)} 
-            required 
-          />
+          <input type="text" value={eventName} onChange={handleEventNameChange} required />
         </div>
         <div>
-          <label>Secret Key:</label>
-          <input 
-            type="text" 
-            value={secretKey} 
-            onChange={(e) => setSecretKey(e.target.value)} 
-            required 
-          />
+          <label>Enter Key:</label>
+          <input type="text" value={keyValue} onChange={handleKeyValue} required />
         </div>
         <div>
-          <label>Upload Images:</label>
-          <input 
-            type="file" 
-            multiple 
-            onChange={handleImageChange} 
-          />
+          <label>Upload Files:</label>
+          <input type="file" multiple onChange={handleFileChange} />
         </div>
-        <div>
-          {images.length > 0 && (
-            <ul>
-              {images.map((image, index) => (
-                <li key={index}>
-                  {image.name} 
-                  <button type="button" onClick={() => handleRemoveImage(index)}>Delete</button>
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
-        <button type="submit">Create Event</button>
+        <button type="submit">Submit</button>
       </form>
     </div>
   );

@@ -59,12 +59,12 @@ app.post('/Register', (req, res) => {
 });
 
 app.post('/create-event', upload.array('files'), (req, res) => {
-  const { email, eventName, secretKey } = req.body;
+  const { email, eventName, keyValue } = req.body;
 
   const newEvent = new EventModel({
     email,
     eventName,
-    secretKey,
+    keyValue,
   });
 
   newEvent.save()
