@@ -21,8 +21,8 @@ function App() {
       <Route path='/Register' element={<Signup />}></Route>
       <Route path='/Login' element={<Login />}></Route>
       <Route path='/home' element={<Home />}></Route>
-      <Route path="/grab-photos" element={<GrabPhotos />} />
-      <Route path="/share-photos" element={<SharePhotos />} />
+      <Route path="home/grab-photos" element={<GrabPhotos />} />
+      <Route path="home/share-photos" element={<SharePhotos />} />
       <Route path="/update-events" element={<UpdateEvents />} />
       <Route path="/create-event" element={<CreateEvent />} />
       {/* <Route path="/uploads" element={<UpdateEvents />} /> */}
