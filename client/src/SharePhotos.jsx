@@ -1,41 +1,39 @@
-// // SharePhotos.js
-// import React from 'react';
-
-// const SharePhotos = () => {
-//   return (
-//     <div>
-//       <h2>Share Photos Page</h2>
-//       {/* Add your share photos functionality here */}
-//     </div>
-//   );
-// };
-
-// export default SharePhotos;
-
-
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import createeventPhoto from './assets/createevents.png';
+import updateeventPhoto from './assets/updateevents.jpg';
+import './App.css'; // Ensure this is the correct path to your CSS file
 
 const SharePhotos = () => {
-  const navigate = useNavigate();
+    const navigate = useNavigate();
 
-  const handleCreateEvent = () => {
-    navigate('/create-event');
-  };
+    const handleCreateEvent = () => {
+        navigate('/create-event');
+    };
 
-  const handleUpdateEvents = () => {
-    navigate('/update-events');
-  };
+    const handleUpdateEvents = () => {
+        navigate('/update-events');
+    };
 
-  return (
-    <div className="container">
-      <h2>Photo Management</h2>
-      <div className="button-group">
-        <button onClick={handleCreateEvent} className="button">Create events</button>
-        <button onClick={handleUpdateEvents} className="button">Update events</button>
-      </div>
-    </div>
-  );
+    return (
+        <div className="container homecontainer">
+            <h2 className="Loginheader2">Create/Update Events</h2>
+            <div className="image-group">
+                <div className="image-container" onClick={handleCreateEvent}>
+                    <img src={createeventPhoto} alt="Create Event" className="image" />
+                    <div className="overlay">
+                        <div className="hometext">Create Event</div>
+                    </div>
+                </div>
+                <div className="image-container" onClick={handleUpdateEvents}>
+                    <img src={updateeventPhoto} alt="Update Events" className="image" />
+                    <div className="overlay">
+                        <div className="hometext">Update Events</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
 };
 
 export default SharePhotos;

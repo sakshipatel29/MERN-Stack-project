@@ -8,11 +8,11 @@ const Home = () => {
     const navigate = useNavigate();
 
     const handleGrabPhotos = () => {
-        navigate('/grab-photos');
+        navigate('/home/grab-photos');
     };
 
     const handleSharePhotos = () => {
-        navigate('/share-photos');
+        navigate('/home/share-photos');
     };
 
     return (
