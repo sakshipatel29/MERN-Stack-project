@@ -8,7 +8,7 @@ const Signup = () => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
+    //const [error, setError] = useState('');
     const navigate = useNavigate();
 
     const handleSubmit = (e) => {
@@ -20,7 +20,7 @@ const Signup = () => {
             })
             .catch(err => {
                 console.log(err);
-                setError('Registration failed. Please try again.');
+                alert('Registration failed. Please try again.');
             });
     };
 
@@ -40,7 +40,7 @@ const Signup = () => {
     return (
         <div className="container">
             <h2 className="createacc">Create Account</h2>
-            {error && <p className="error">{error}</p>}
+            
             <form onSubmit={handleSubmit} className="form">
                 <div className="form-group">
                     <label className="label">
@@ -74,6 +74,7 @@ const Signup = () => {
                     <div className="password-input">
                         <input
                         type="password"
+                        id="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         className="input"
