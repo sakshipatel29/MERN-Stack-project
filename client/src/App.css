@@ -1,82 +1,134 @@
 body {
-  margin: 0;
-  font-family: 'Arial', sans-serif;
-  background-color: #e9ecef;
-  background-image: linear-gradient(to right, #e9ecef 25%, #ffffff 75%);
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: #e9ecef;
+    background-image: linear-gradient(to right, #e9ecef 25%, #ffffff 75%);
+    height: 100vh;
+    overflow: hidden; /* Prevent scrolling */
 }
 
 .container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  background-color: #ffffff;
-  padding: 40px;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
-  background-image: url('https://www.toptal.com/designers/subtlepatterns/patterns/double-bubble-outline.png');
+    background-image: url('./assets/bg-image.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 100vh; /* Full height */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white; /* Text color for contrast */
+    padding: 40px;
+    box-sizing: border-box;
+    flex-direction: column;
 }
 
 h2 {
-  margin-bottom: 20px;
-  color: #343a40;
+    margin-bottom: 20px;
+    color: #343a40;
 }
 
 .form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
-  background-color: #f8f9fa;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 100%;
 }
 
 .form-group {
-  margin-bottom: 15px;
-  width: 100%;
+    margin-bottom: 15px;
+    width: 100%;
 }
 
 .label {
-  margin-bottom: 5px;
-  font-weight: bold;
-  color: #495057;
+    margin-bottom: 5px;
+    margin-left: 5px;
+    font-weight: bold;
+    color: #495057;
+}
+
+.icon{
+    margin-right:5px;
+}
+
+.accountexist{
+    color: black;
+    font-family:Arial;
+    font-weight:bold;
+    font-size:18px;
+}
+
+.Login{
+    color:white
 }
 
 .input {
-  padding: 10px;
-  width: 100%;
-  border-radius: 5px;
-  border: 1px solid #ced4da;
-  font-size: 16px;
-  color: #495057;
-  background-color: #ffffff;
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    width: 95%;
+    border-radius: 5px;
+    border: 1px solid #ced4da;
+    font-size: 16px;
+    color: #495057;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .button {
-  padding: 10px 20px;
-  background-color: #28a745;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-  transition: background-color 0.3s;
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
 }
 
 .button:hover {
-  background-color: #218838;
+        background-color: #218838;
 }
 
 .image-preview {
-  max-width: 100%;
-  max-height: 300px;
-  margin-top: 10px;
-  border: 1px solid #ced4da;
-  border-radius: 5px;
-  padding: 5px;
-  background-color: #ffffff;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    max-width: 100%;
+    max-height: 300px;
+    margin-top: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    padding: 5px;
+    background-color: #ffffff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.createacc{
+    color: white;
+    font-size: xx-large
+}
+
+.toggle-password {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: black
+}
+
+.password-input {
+    position: relative;
+}
+
+.Loginheader1{
+    font-size:48px;
+    margin:0px;
+    color:yellow
+}
+
+.Loginheader2{
+    font-size:30px;
+    margin-top: 0px;
+    color:lightcyan
 }
