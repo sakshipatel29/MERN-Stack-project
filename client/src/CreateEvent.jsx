@@ -1,18 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import './App.css';
-import { useContext } from 'react';
-import { AppContext } from './Login';
+//import { AppContext } from './App';
+import { AppContext } from './AppContext';
 
 const CreateEvent = () => {
   const { email } = useContext(AppContext);
-  console.log('Email from context:', email);
   const [eventName, setEventName] = useState('');
   const [keyValue, setKeyValue] = useState('');
   const [files, setFiles] = useState([]);
+  const [previews, setPreviews] = useState([]);
 
   const handleFileChange = (e) => {
-    setFiles([...e.target.files]);
+    const newFiles = Array.from(e.target.files);
+    setFiles(prevFiles => [...prevFiles, ...newFiles]);
+
+    const newPreviews = newFiles.map(file => URL.createObjectURL(file));
+    setPreviews(prevPreviews => [...prevPreviews, ...newPreviews]);
+  };
+
+  const handleDeleteFile = (index) => {
+    setFiles(prevFiles => prevFiles.filter((_, i) => i !== index));
+    setPreviews(prevPreviews => prevPreviews.filter((_, i) => i !== index));
   };
 
   const handleEventNameChange = (e) => {
@@ -31,14 +40,14 @@ const CreateEvent = () => {
       return;
     }
     if (!keyValue) {
-      alert('secret key is required');
+      alert('Secret key is required');
       return;
     }
+
     const formData = new FormData();
     formData.append('email', email);
     formData.append('eventName', eventName);
     formData.append('keyValue', keyValue);
-
 
     files.forEach((file) => {
       formData.append('files', file);
@@ -73,6 +82,14 @@ const CreateEvent = () => {
         <div>
           <label>Upload Files:</label>
           <input type="file" multiple onChange={handleFileChange} />
+        </div>
+        <div className="previews">
+          {previews.map((preview, index) => (
+            <div key={index} className="preview">
+              <img src={preview} alt={`file preview ${index}`} />
+              <button type="button" onClick={() => handleDeleteFile(index)}>Delete</button>
+            </div>
+          ))}
         </div>
         <button type="submit">Submit</button>
       </form>

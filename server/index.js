@@ -72,6 +72,15 @@ app.post('/create-event', upload.array('files'), (req, res) => {
     .catch(err => res.json(err));
 });
 
+app.get('/events', async (req, res) => {
+  try {
+    const events = await Events.find();
+    res.json(events);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 app.listen(3001, () => {
   console.log("server is running");
 });

@@ -6,6 +6,6 @@ const eventSchema = new mongoose.Schema({
   keyValue: String
 });
 
-const Events = mongoose.model('Event', eventSchema);
+const Events = mongoose.model('Events', eventSchema);
 
 module.exports = Events;
