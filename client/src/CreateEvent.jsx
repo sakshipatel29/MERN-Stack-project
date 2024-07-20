@@ -142,7 +142,7 @@ const CreateEvent = () => {
                 )}
                 <button type="submit" className="button">Submit</button>
                 <p className="accountexist">Want to go back?</p>
-                <Link to="/home" className="button">Home</Link>
+                <Link to="/home/share-photos" className="button">Share Photos</Link>
             </form>
         </div>
     );

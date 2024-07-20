@@ -74,7 +74,8 @@ app.post('/create-event', upload.array('files'), (req, res) => {
 
 app.get('/events', async (req, res) => {
   try {
-    const events = await Events.find();
+      const events = await EventModel.find();
+      console.log('Fetched events from DB:', events); // Log the fetched events
     res.json(events);
   } catch (err) {
     res.status(500).json({ message: err.message });

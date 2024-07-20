@@ -23,8 +23,8 @@ function App() {
             <Route path='/home' element={<Home />} />
             <Route path='home/grab-photos' element={<GrabPhotos />} />
             <Route path='home/share-photos' element={<SharePhotos />} />
-            <Route path='/update-events' element={<UpdateEvents />} />
-            <Route path='/create-event' element={<CreateEvent />} />
+            <Route path='home/share-photos/update-events' element={<UpdateEvents />} />
+            <Route path='home/share-photos/create-event' element={<CreateEvent />} />
           </Routes>
         </BrowserRouter>
       </AppContext.Provider>
