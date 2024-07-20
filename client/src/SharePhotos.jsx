@@ -8,11 +8,11 @@ const SharePhotos = () => {
     const navigate = useNavigate();
 
     const handleCreateEvent = () => {
-        navigate('/create-event');
+        navigate('/home/share-photos/create-event');
     };
 
     const handleUpdateEvents = () => {
-        navigate('/update-events');
+        navigate('/home/share-photos/update-events');
     };
 
     return (
