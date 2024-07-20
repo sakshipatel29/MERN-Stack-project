@@ -1,4 +1,4 @@
-body {
+﻿body {
     margin: 0;
     font-family: 'Arial', sans-serif;
     background-color: #e9ecef;
@@ -50,19 +50,19 @@ h2 {
     color: #495057;
 }
 
-.icon{
-    margin-right:5px;
+.icon {
+    margin-right: 5px;
 }
 
-.accountexist{
+.accountexist {
     color: black;
-    font-family:Arial;
-    font-weight:bold;
-    font-size:18px;
+    font-family: Arial;
+    font-weight: bold;
+    font-size: 18px;
 }
 
-.Login{
-    color:white
+.Login {
+    color: white;
 }
 
 .input {
@@ -88,9 +88,9 @@ h2 {
     transition: background-color 0.3s;
 }
 
-.button:hover {
+    .button:hover {
         background-color: #218838;
-}
+    }
 
 .image-preview {
     max-width: 100%;
@@ -104,9 +104,9 @@ h2 {
 }
 
 /*LOGIN AND SIGN UP PAGE CSS */
-.createacc{
+.createacc {
     color: white;
-    font-size: xx-large
+    font-size: xx-large;
 }
 
 .toggle-password {
@@ -115,28 +115,28 @@ h2 {
     right: 10px;
     transform: translateY(-50%);
     cursor: pointer;
-    color: black
+    color: black;
 }
 
 .password-input {
     position: relative;
 }
 
-.Loginheader1{
-    font-size:48px;
-    margin:0px;
-    color:yellow
+.Loginheader1 {
+    font-size: 48px;
+    margin: 0px;
+    color: yellow;
 }
 
-.Loginheader2{
-    font-size:30px;
+.Loginheader2 {
+    font-size: 30px;
     margin-top: 0px;
-    color:lightcyan
+    color: lightcyan;
 }
 
 /*HOME PAGE & Share Photos Page CSS */
-.homecontainer{
-    text-align:center;
+.homecontainer {
+    text-align: center;
 }
 
 .image-group {
@@ -187,30 +187,83 @@ h2 {
     text-align: center;
 }
 
+/*CREATE EVENT PAGE*/
+.previews-wrapper {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    position: relative;
+}
+
+.scroll-button {
+    background: rgba(0, 0, 0, 0.5);
+    border: none;
+    color: white;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 50%;
+    font-size: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.3s;
+    z-index: 1;
+}
+
+    .scroll-button:hover {
+        background: rgba(0, 0, 0, 0.8);
+    }
+
+    .scroll-button.left {
+        position: absolute;
+        left: 10px;
+    }
+
+    .scroll-button.right {
+        position: absolute;
+        right: 10px;
+    }
+
+.previews-container {
+    display: flex;
+    flex-grow: 1;
+    padding: 10px 0;
+    overflow: hidden;
+    width: 100%;
+}
+
 .previews {
     display: flex;
-    flex-wrap: wrap;
-  }
-  
-  .preview {
-    margin: 10px;
+    gap: 20px;
+    max-width: calc(100% - 80px); /* Adjust based on button width */
+}
+
+.preview {
     position: relative;
-  }
-  
-  .preview img {
+    min-width: 100px; /* Fixed width for each preview */
     max-width: 100px;
-    max-height: 100px;
-    object-fit: cover;
-  }
-  
-  .preview button {
-    position: absolute;
-    top: 0;
-    right: 0;
-    background: red;
-    color: white;
-    border: none;
-    cursor: pointer;
-    padding: 2px 5px;
-  }
-  
+}
+
+    .preview img {
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+        border-radius: 5px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .preview button {
+        position: absolute;
+        top: 0;
+        right: 0;
+        background: red;
+        color: white;
+        border: none;
+        cursor: pointer;
+        padding: 2px 5px;
+        border-radius: 5px;
+    }
+
+        .preview button:hover {
+            background: darkred;
+        }
