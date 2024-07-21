@@ -11,7 +11,7 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-mongoose.connect("mongodb://127.0.0.1:27017/Users", { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect("mongodb://localhost:27017/Users", { useNewUrlParser: true, useUnifiedTopology: true });
 
 // Ensure base upload directory exists
 const baseUploadPath = path.join(__dirname, 'uploads');
@@ -73,14 +73,17 @@ app.post('/create-event', upload.array('files'), (req, res) => {
 });
 
 app.get('/events', async (req, res) => {
+  const { email } = req.query;
+
   try {
-      const events = await EventModel.find();
+      const events = await EventModel.find({ email });
       console.log('Fetched events from DB:', events); // Log the fetched events
-    res.json(events);
+      res.json(events);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+      res.status(500).json({ message: err.message });
   }
 });
+
 
 app.listen(3001, () => {
   console.log("server is running");
