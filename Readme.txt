@@ -14,3 +14,5 @@ Packages to be installed:
 Execution steps:
 1) Server side - npm start
 2) Client side - npm run dev
+
+Google Docs Link --> https://docs.google.com/document/d/1SQwwvDcL72XEdgW6FcTOm9nLxO-ti7-idnKlaqiTTaI/edit
