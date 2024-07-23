@@ -8,6 +8,8 @@ const UpdateEvents = () => {
     const [events, setEvents] = useState([]);
     const [selectedEvent, setSelectedEvent] = useState(null);
     const [eventImages, setEventImages] = useState([]);
+    const [newImages, setNewImages] = useState([]);
+    const [isEditing, setIsEditing] = useState(false);
 
     useEffect(() => {
         const fetchEvents = async () => {
@@ -26,6 +28,7 @@ const UpdateEvents = () => {
 
     const handleViewImages = async (event) => {
         setSelectedEvent(event);
+        setIsEditing(false);
         try {
             const response = await axios.get('http://localhost:3001/event-images', {
                 params: { eventName: event.eventName },
@@ -36,9 +39,57 @@ const UpdateEvents = () => {
         }
     };
 
+    const handleEditEvent = async (event) => {
+        setSelectedEvent(event);
+        setIsEditing(true);
+        try {
+            const response = await axios.get('http://localhost:3001/event-images', {
+                params: { eventName: event.eventName },
+            });
+            setEventImages(response.data);
+        } catch (error) {
+            console.error('Error fetching event images:', error);
+        }
+    };
+
+    const handleFileChange = (e) => {
+        setNewImages(e.target.files);
+    };
+
+    const handleDeleteImage = async (imageName) => {
+        try {
+            await axios.delete('http://localhost:3001/delete-image', {
+                data: { eventName: selectedEvent.eventName, imageName },
+            });
+            setEventImages(eventImages.filter(image => image !== imageName));
+        } catch (error) {
+            console.error('Error deleting image:', error);
+        }
+    };
+
+    const handleUpdateEvent = async () => {
+        const formData = new FormData();
+        formData.append('email', email);
+        formData.append('eventName', selectedEvent.eventName);
+
+        Array.from(newImages).forEach(file => {
+            formData.append('files', file);
+        });
+
+        try {
+            await axios.post('http://localhost:3001/update-event', formData);
+            setNewImages([]);
+            handleViewImages(selectedEvent); // Refresh images
+        } catch (error) {
+            console.error('Error updating event:', error);
+        }
+    };
+
     const handleCloseModal = () => {
         setSelectedEvent(null);
         setEventImages([]);
+        setNewImages([]);
+        setIsEditing(false);
     };
 
     return (
@@ -49,7 +100,7 @@ const UpdateEvents = () => {
                     <div className="u_overlay" onClick={handleCloseModal}></div>
                     <div className="modal">
                         <button onClick={handleCloseModal} className="close-button">×</button>
-                        <h2 className="modal-header">{selectedEvent.eventName} - Details</h2>
+                        <h2 className="modal-header">{selectedEvent.eventName} - {isEditing ? 'Edit' : 'View'} Details</h2>
                         <p className='event-modal'><strong>Event Name:</strong> {selectedEvent.eventName}</p>
                         <p className='event-modal'><strong>Secret Key:</strong> {selectedEvent.keyValue}</p>
                         <div className="images-list">
@@ -59,12 +110,21 @@ const UpdateEvents = () => {
                                         <a href={`http://localhost:3001/uploads/${selectedEvent.eventName}/${file}`} target="_blank" rel="noopener noreferrer">
                                             <img src={`http://localhost:3001/uploads/${selectedEvent.eventName}/${file}`} alt={file} className="event-image" />
                                         </a>
+                                        {isEditing && (
+                                            <button onClick={() => handleDeleteImage(file)} className="delete-button">Delete</button>
+                                        )}
                                     </div>
                                 ))
                             ) : (
                                 <p>No images available for this event.</p>
                             )}
                         </div>
+                        {isEditing && (
+                            <>
+                                <input type="file" multiple onChange={handleFileChange} />
+                                <button onClick={handleUpdateEvent} className="update-button">Update</button>
+                            </>
+                        )}
                     </div>
                 </>
             )}
@@ -86,7 +146,7 @@ const UpdateEvents = () => {
                                     <td>
                                         <button onClick={() => handleViewImages(event)} className="button">View</button>
                                         &nbsp;
-                                        <button onClick={() => handleViewImages(event)} className="button">Edit</button>
+                                        <button onClick={() => handleEditEvent(event)} className="button">Edit</button>
                                     </td>
                                 </tr>
                             ))

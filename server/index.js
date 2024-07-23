@@ -104,6 +104,38 @@ app.get('/event-images', (req, res) => {
     });
 });
 
+// Delete image endpoint
+app.delete('/delete-image', (req, res) => {
+    const { eventName, imageName } = req.body;
+    const filePath = path.join(baseUploadPath, eventName, imageName);
+
+    fs.unlink(filePath, (err) => {
+        if (err) {
+            return res.status(500).json({ message: 'Failed to delete image', error: err });
+        }
+        res.json({ message: 'Image deleted successfully' });
+    });
+});
+
+// Update event endpoint to add new images
+app.post('/update-event', upload.array('files'), async (req, res) => {
+    const { email, eventName, keyValue } = req.body;
+
+    try {
+        const event = await EventModel.findOne({ email, eventName });
+        if (!event) {
+            return res.status(404).json({ message: 'Event not found' });
+        }
+
+        event.keyValue = keyValue || event.keyValue;
+        await event.save();
+
+        res.json(event);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
 // Serve static files from the uploads directory
 app.use('/uploads', express.static(baseUploadPath));
 
