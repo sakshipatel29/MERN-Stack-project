@@ -1,12 +1,13 @@
 import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
-import { AppContext } from './AppContext'; // Ensure you import the context
+import { AppContext } from './AppContext';
 import './App.css';
 
 const UpdateEvents = () => {
-    const { email } = useContext(AppContext); // Get the logged-in user's email from context
+    const { email } = useContext(AppContext);
     const [events, setEvents] = useState([]);
     const [selectedEvent, setSelectedEvent] = useState(null);
+    const [eventImages, setEventImages] = useState([]);
 
     useEffect(() => {
         const fetchEvents = async () => {
@@ -14,7 +15,6 @@ const UpdateEvents = () => {
                 const response = await axios.get('http://localhost:3001/events', {
                     params: { email },
                 });
-                console.log('Fetched events:', response.data); // Log the fetched data
                 setEvents(response.data);
             } catch (error) {
                 console.error('Error fetching events:', error);
@@ -24,12 +24,21 @@ const UpdateEvents = () => {
         fetchEvents();
     }, [email]);
 
-    const handleViewImages = (event) => {
+    const handleViewImages = async (event) => {
         setSelectedEvent(event);
+        try {
+            const response = await axios.get('http://localhost:3001/event-images', {
+                params: { eventName: event.eventName },
+            });
+            setEventImages(response.data);
+        } catch (error) {
+            console.error('Error fetching event images:', error);
+        }
     };
 
     const handleCloseModal = () => {
         setSelectedEvent(null);
+        setEventImages([]);
     };
 
     return (
@@ -44,8 +53,8 @@ const UpdateEvents = () => {
                         <p className='event-modal'><strong>Event Name:</strong> {selectedEvent.eventName}</p>
                         <p className='event-modal'><strong>Secret Key:</strong> {selectedEvent.keyValue}</p>
                         <div className="images-list">
-                            {selectedEvent.files && selectedEvent.files.length > 0 ? (
-                                selectedEvent.files.map((file, index) => (
+                            {eventImages.length > 0 ? (
+                                eventImages.map((file, index) => (
                                     <div key={index} className="image">
                                         <a href={`http://localhost:3001/uploads/${selectedEvent.eventName}/${file}`} target="_blank" rel="noopener noreferrer">
                                             <img src={`http://localhost:3001/uploads/${selectedEvent.eventName}/${file}`} alt={file} className="event-image" />
@@ -53,7 +62,7 @@ const UpdateEvents = () => {
                                     </div>
                                 ))
                             ) : (
-                                <p className='event-modal'>No images available for this event.</p>
+                                <p>No images available for this event.</p>
                             )}
                         </div>
                     </div>
