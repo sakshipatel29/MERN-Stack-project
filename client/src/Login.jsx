@@ -18,6 +18,8 @@ const Login = () => {
         if (result.data === 'Success') {
           setEmail(email); // Set email in context
           navigate('/home');
+        }else {
+          alert("please enter valid credentials.");
         }
       })
       .catch(err => console.log(err));

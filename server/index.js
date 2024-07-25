@@ -105,6 +105,28 @@ app.get('/event-images', (req, res) => {
     });
 });
 
+app.get('/grab-event-images', async (req, res) => {
+  const eventName = req.query.eventName;
+  const keyValue = req.query.keyValue;
+  const directoryPath = path.join(baseUploadPath, eventName);
+  const event = await EventModel.findOne({ eventName, keyValue });
+  if (!event) {
+      return res.status(404).json({ message: 'Incorrect details' });
+  }
+  else {
+      fs.readdir(directoryPath, (err, files) => {
+          if (err) {
+              return res.status(500).send('Unable to scan directory: ' + err);
+          }
+
+          // Filter to include only image files (optional)
+          const imageFiles = files.filter(file => /\.(jpg|jpeg|png|gif)$/.test(file));
+          res.json(imageFiles);
+      });
+  }
+});
+
+
 // Delete image endpoint
 app.delete('/delete-image', (req, res) => {
     const { eventName, imageName } = req.body;

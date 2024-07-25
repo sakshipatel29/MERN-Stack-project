@@ -10,10 +10,10 @@ const GrabPhotos = () => {
     const [isKeyValid, setIsKeyValid] = useState(false);
 
     const handleSearch = async () => {
-        setEventImages([]); // Clear the previous images
+        setEventImages([]);
         setIsLoading(true);
         try {
-            const response = await axios.get('http://localhost:3001/event-images', {
+            const response = await axios.get('http://localhost:3001/grab-event-images', {
                 params: { eventName: searchTerm, keyValue: searchKeyTerm },
             });
             if (response.data && response.data.length > 0) {
@@ -25,6 +25,7 @@ const GrabPhotos = () => {
         } catch (error) {
             console.error('Error fetching event images:', error);
             setIsKeyValid(false);
+            alert("enter correct credentials!");
         }
         setIsLoading(false);
     };
@@ -40,7 +41,7 @@ const GrabPhotos = () => {
                     placeholder="Enter event name"
                     className="search-input"
                 />
-                <button onClick={handleSearch} className="button">Search</button>
+                {/* <button onClick={handleSearch} className="button">Search</button> */}
             </div>
             <div className="search-container">
                 <input
@@ -51,7 +52,7 @@ const GrabPhotos = () => {
                     className="search-input"
                     required
                 />
-                <button onClick={handleSearch} className="button">Enter</button>
+                <button onClick={handleSearch} className="button">Search</button>
             </div>
             {isLoading ? (
                 <p>Loading images...</p>
@@ -62,9 +63,11 @@ const GrabPhotos = () => {
                             const imageUrl = `http://localhost:3001/uploads/${searchTerm}/${file}`;
                             return (
                                 <div key={index} className="image">
+                                  {searchTerm && ( 
                                     <a href={imageUrl} target="_blank" rel="noopener noreferrer">
                                         <img src={imageUrl} alt={file} className="event-image" />
                                     </a>
+                                    )}
                                 </div>
                             );
                         })
@@ -73,7 +76,7 @@ const GrabPhotos = () => {
                     )}
                 </div>
             ) : (
-                <p>No images available for this event or incorrect key.</p>
+                <p></p>
             )}
         </div>
     );
