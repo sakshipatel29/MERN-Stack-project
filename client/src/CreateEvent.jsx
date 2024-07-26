@@ -1,4 +1,4 @@
-﻿import React, { useState, useContext, useRef } from 'react';
+﻿import React, { useState, useContext, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { AppContext } from './AppContext';
@@ -11,6 +11,7 @@ const CreateEvent = () => {
     const [files, setFiles] = useState([]);
     const [previews, setPreviews] = useState([]);
     const previewsContainerRef = useRef(null);
+    const fileInputRef = useRef(null); // Added ref for file input
 
     const handleFileChange = (e) => {
         const newFiles = Array.from(e.target.files);
@@ -29,7 +30,13 @@ const CreateEvent = () => {
     };
 
     const handleDeleteFile = (index) => {
-        setFiles(prevFiles => prevFiles.filter((_, i) => i !== index));
+        setFiles(prevFiles => {
+            const newFiles = prevFiles.filter((_, i) => i !== index);
+            if (newFiles.length === 0) {
+                fileInputRef.current.value = null; // Reset file input field when no files are left
+            }
+            return newFiles;
+        });
         setPreviews(prevPreviews => prevPreviews.filter((_, i) => i !== index));
     };
 
@@ -37,7 +44,7 @@ const CreateEvent = () => {
         setEventName(e.target.value);
     };
 
-    const handleKeyValue = (e) => {
+    const handleKeyValueChange = (e) => {
         setKeyValue(e.target.value);
     };
 
@@ -69,10 +76,16 @@ const CreateEvent = () => {
                 },
             });
             console.log(response.data);
-            alert('Files uploaded successfully!');
+            alert('Event created and files uploaded successfully!');
+            // Clear the form data
+            setEventName('');
+            setKeyValue('');
+            setFiles([]);
+            setPreviews([]);
+            fileInputRef.current.value = null; // Reset file input field
         } catch (error) {
             console.error('Error uploading files', error);
-            alert('Failed to upload files');
+            alert('Failed to create event or upload files');
         }
     };
 
@@ -108,7 +121,7 @@ const CreateEvent = () => {
                     <input
                         type="text"
                         value={keyValue}
-                        onChange={handleKeyValue}
+                        onChange={handleKeyValueChange}
                         className="input"
                         required
                     />
@@ -122,6 +135,7 @@ const CreateEvent = () => {
                         multiple
                         onChange={handleFileChange}
                         className="input"
+                        ref={fileInputRef} // Attach ref to file input
                     />
                 </div>
                 {previews.length > 0 && (
