@@ -326,3 +326,27 @@ h2 {
 .event-modal{
     color: red;
 }
+.face-recognition-container {
+    margin-top: 20px;
+}
+
+.upload-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.images-list {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.image {
+    margin: 10px;
+}
+
+.event-image {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+}

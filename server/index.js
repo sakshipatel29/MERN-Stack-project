@@ -1,4 +1,3 @@
-
 const express = require("express");
 const mongoose = require('mongoose');
 const cors = require("cors");
@@ -7,6 +6,7 @@ const fs = require('fs');
 const path = require('path');
 const UsersModel = require('./models/Users');
 const EventModel = require('./models/Events');
+const recognizeFace = require('./FaceRecognition');
 
 const app = express();
 app.use(express.json());
@@ -106,26 +106,42 @@ app.get('/event-images', (req, res) => {
 });
 
 app.get('/grab-event-images', async (req, res) => {
-  const eventName = req.query.eventName;
-  const keyValue = req.query.keyValue;
-  const directoryPath = path.join(baseUploadPath, eventName);
-  const event = await EventModel.findOne({ eventName, keyValue });
-  if (!event) {
-      return res.status(404).json({ message: 'Incorrect details' });
-  }
-  else {
-      fs.readdir(directoryPath, (err, files) => {
-          if (err) {
-              return res.status(500).send('Unable to scan directory: ' + err);
-          }
+    const eventName = req.query.eventName;
+    const keyValue = req.query.keyValue;
+    const directoryPath = path.join(baseUploadPath, eventName);
+    const event = await EventModel.findOne({ eventName, keyValue });
+    if (!event) {
+        return res.status(404).json({ message: 'Incorrect details' });
+    } else {
+        fs.readdir(directoryPath, (err, files) => {
+            if (err) {
+                return res.status(500).send('Unable to scan directory: ' + err);
+            }
 
-          // Filter to include only image files (optional)
-          const imageFiles = files.filter(file => /\.(jpg|jpeg|png|gif)$/.test(file));
-          res.json(imageFiles);
-      });
-  }
+            // Filter to include only image files (optional)
+            const imageFiles = files.filter(file => /\.(jpg|jpeg|png|gif)$/.test(file));
+            res.json(imageFiles);
+        });
+    }
 });
 
+// Face recognition endpoint
+app.post('/recognize-face', upload.single('file'), async (req, res) => {
+    const { eventName } = req.body;
+    const file = req.file;
+
+    if (!file) {
+        return res.status(400).send('No file uploaded.');
+    }
+
+    try {
+        const matchingImages = await recognizeFace(eventName, file.path);
+        res.json(matchingImages);
+    } catch (error) {
+        console.error('Error recognizing face:', error);
+        res.status(500).send('Error recognizing face.');
+    }
+});
 
 // Delete image endpoint
 app.delete('/delete-image', (req, res) => {
@@ -164,5 +180,5 @@ app.use('/uploads', express.static(baseUploadPath));
 
 // Start the server
 app.listen(3001, () => {
-    console.log("server is running");
+    console.log("server is running on port 3001");
 });

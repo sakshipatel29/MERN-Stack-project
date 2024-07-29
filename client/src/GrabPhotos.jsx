@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import FaceRecognition from './FaceRecognition';
 import './App.css';
 
 const GrabPhotos = () => {
@@ -8,6 +9,7 @@ const GrabPhotos = () => {
     const [eventImages, setEventImages] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [isKeyValid, setIsKeyValid] = useState(false);
+    const [showFaceRecognition, setShowFaceRecognition] = useState(false);
 
     const handleSearch = async () => {
         setEventImages([]);
@@ -25,7 +27,7 @@ const GrabPhotos = () => {
         } catch (error) {
             console.error('Error fetching event images:', error);
             setIsKeyValid(false);
-            alert("enter correct credentials!");
+            alert("Enter correct credentials!");
         }
         setIsLoading(false);
     };
@@ -41,7 +43,6 @@ const GrabPhotos = () => {
                     placeholder="Enter event name"
                     className="search-input"
                 />
-                {/* <button onClick={handleSearch} className="button">Search</button> */}
             </div>
             <div className="search-container">
                 <input
@@ -57,23 +58,27 @@ const GrabPhotos = () => {
             {isLoading ? (
                 <p>Loading images...</p>
             ) : isKeyValid ? (
-                <div className="images-list">
-                    {eventImages.length > 0 ? (
-                        eventImages.map((file, index) => {
-                            const imageUrl = `http://localhost:3001/uploads/${searchTerm}/${file}`;
-                            return (
-                                <div key={index} className="image">
-                                  {searchTerm && ( 
-                                    <a href={imageUrl} target="_blank" rel="noopener noreferrer">
-                                        <img src={imageUrl} alt={file} className="event-image" />
-                                    </a>
-                                    )}
-                                </div>
-                            );
-                        })
-                    ) : (
-                        <p>No images available for this event.</p>
-                    )}
+                <div>
+                    <div className="images-list">
+                        {eventImages.length > 0 ? (
+                            eventImages.map((file, index) => {
+                                const imageUrl = `http://localhost:3001/uploads/${searchTerm}/${file}`;
+                                return (
+                                    <div key={index} className="image">
+                                        {searchTerm && (
+                                            <a href={imageUrl} target="_blank" rel="noopener noreferrer">
+                                                <img src={imageUrl} alt={file} className="event-image" />
+                                            </a>
+                                        )}
+                                    </div>
+                                );
+                            })
+                        ) : (
+                            <p>No images available for this event.</p>
+                        )}
+                    </div>
+                    <button onClick={() => setShowFaceRecognition(true)} className="button">Get Your Photos</button>
+                    {showFaceRecognition && <FaceRecognition searchTerm={searchTerm} />}
                 </div>
             ) : (
                 <p></p>
