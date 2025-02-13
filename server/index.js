@@ -13,6 +13,7 @@ app.use(express.json());
 app.use(cors());
 
 mongoose.connect("mongodb://localhost:27017/Users", { useNewUrlParser: true, useUnifiedTopology: true });
+console.log("connected DB");
 
 // Ensure base upload directory exists
 const baseUploadPath = path.join(__dirname, 'uploads');
